@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Math Computation Using Fetch</title>
+</head>
+<body>
+
+    <h1>Dindu Gowtham Kanuri uses a fetch request</h1>
+
+    <p>Enter two numbers to perform a computation.</p>
+
+    <label for="x">Enter X:</label>
+    <input type="number" id="x" step="any">
+
+    <br><br>
+
+    <label for="y">Enter Y:</label>
+    <input type="number" id="y" step="any">
+
+    <br><br>
+
+    <button id="computeBtn">Invoke computation on Server</button>
+
+    <h3>Result:</h3>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("computeBtn").addEventListener("click", function() {
+
+            let x = document.getElementById("x").value;
+            let y = document.getElementById("y").value;
+
+            let url = `http://127.0.0.1:3001/?x=${encodeURIComponent(x)}&y=${encodeURIComponent(y)}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Server error");
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    document.getElementById("result").innerHTML = text;
+                })
+                .catch(error => {
+                    document.getElementById("result").innerHTML =
+                        "Error: " + error.message;
+                });
+
+        });
+    </script>
+
+</body>
+</html>
